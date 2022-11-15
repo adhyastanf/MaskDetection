@@ -1,106 +1,86 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import moment from "moment";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 export default function SignUp() {
-  const [data, setData] = useState({
-    Nama_Depan: "",
-    Nama_Belakang: "",
-    birthdate: "",
-    gender: true,
-    Foto: "foto.png",
-    Nomor_Telepon: "",
-    Email: "",
-    Password: "",
-    Username: "",
+  const schema = yup
+    .object()
+    .shape({
+      Nama_Depan: yup.string().required("ga boleh kosong goblok"),
+      Nama_Belakang: yup.string().required(),
+      Nomor_Telepon: yup.number().required(),
+      Gender: yup.bool().required().oneOf([true,false]),
+      Email: yup.string().email().required(),
+      Password: yup.string().min(4).max(15).required(),
+      confirmPassword: yup.string().oneOf([yup.ref("Password")],null),
+      Username: yup.string().required(),
+    })
+    .required();
+
+  const { register, handleSubmit, formState:{errors} } = useForm({
+    resolver: yupResolver(schema),
   });
-
-  const [confirmPw, setConfirm] = useState("");
-  const [match, setMatch] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "birthdate") {
-      
-      setData((prevItem) => {
-        return { ...prevItem, [name]: value };
-        // console.log({...prevItem})
-      });
-    } else {
-      setData((prevItem) => {
-        return { ...prevItem, [name]: value };
-        // console.log({...prevItem})
-      });
-    }
-    console.log(data);
-  };
-
-  const url = "/api/users";
-  const addItem = (e) => {
-    e.preventDefault()
-    if (confirmPw === data.Password) {
-      setMatch(false);
-      axios.post(url, data);
-    } else {
-      setMatch(true);
-    }
-  };
 
   return (
     <section className=" flex items-center justify-center absolute left-0 right-0 top-0 bottom-0 ">
       <div className=" w-[300px]">
-        <form id="form1">
+        <form
+          id="form1"
+          onSubmit={handleSubmit((d) => {
+            console.log(d);
+            console.log(errors)
+          })}
+        >
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">First Name</p>
-            <input required onChange={handleChange} value={data.Nama_Depan} name="Nama_Depan" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <input {...register("Nama_Depan")} className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <p>{errors.Nama_Depan?.message}</p>
           </div>
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Last Name</p>
-            <input required onChange={handleChange} value={data.Nama_Belakang} name="Nama_Belakang" id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <input {...register("Nama_Belakang")} className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
           </div>
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Email</p>
-            <input required onChange={handleChange} value={data.Email} name="Email" id="" placeholder="Password" className=" invalid:border-red-600 rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <input {...register("Email")} placeholder="Password" className=" invalid:border-red-600 rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
           </div>
           <div className="relative mb-[14px]">
-            <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Birthdate</p>
-            <input required type="date" onChange={handleChange} value={data.birthdate} name="birthdate" id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
-          </div>
-          <div className="relative mb-[14px]">
-            <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Gender</p>
-            <input required onChange={handleChange} id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <p className=" ">Gender</p>
+            <input type={"radio"} {...register("Gender")} value={true} placeholder="Password" className=" inline-block w-[50px] h-[50px]" />
+            <input type={"radio"} {...register("Gender")} value={false} placeholder="Password" className=" inline-block w-[50px] h-[50px]" />
           </div>
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Phone Number</p>
-            <input required onChange={handleChange} value={data.Nomor_Telepon} name="Nomor_Telepon" id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <input {...register("Nomor_Telepon")} name="Nomor_Telepon" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
           </div>
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Username</p>
-            <input required onChange={handleChange} value={data.Username} name="Username" id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
+            <input {...register("Username")} name="Username" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]" />
           </div>
           <div className="relative mb-[14px]">
             <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Password</p>
             <input
-              onChange={handleChange}
-              value={data.Password}
+              {...register("Password")}
               type="password"
-              name="Password"
-              id=""
               placeholder="Password"
               className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-              minLength={"8"}
               title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
             />
           </div>
           <div className="relative mb-[14px]">
-            <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Confirm Password</p>
-            <input required onChange={(e) => setConfirm(e.target.value)} type="password" name="confirm" id="" placeholder="Password" className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] " minLength={"8"} />
-            {match && <span className=" text-red-700 text-xs ml-[14px]">Not match</span>}
+            <p className=" text-[12px] absolute -top-[10px] left-[26px] px-1 bg-white">Password</p>
+            <input
+              {...register("confirmPassword")}
+              type="password"
+              placeholder="Password"
+              className=" rounded-[20px] border border-solid w-full h-[40px] border-[#6E7076] px-[34px] mb-[10px]"
+              title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+            />
           </div>
+          <input type="submit" className=" rounded-[20px] border-solid w-full h-[40px] bg-[#2CD5D9] px-[34px] mb-[10px] text-white" value={"next"} />
         </form>
-        <button onClick={addItem} form="form1" type="button" className=" rounded-[20px] border-solid w-full h-[40px] bg-[#2CD5D9] px-[34px] mb-[10px] text-white">
-          Next
-        </button>
       </div>
     </section>
   );

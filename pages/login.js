@@ -6,10 +6,11 @@ import { getSession, useSession, signIn } from "next-auth/react";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { redirect } from "next/dist/server/api-utils";
 // import * as ml5 from 'ml5'
 // import P5Wrapper from "react-p5"
 
-export default function Home({ session }) {
+export default function Home() {
   const [data, setData] = useState({
     Username: "",
     Password: "",
@@ -31,10 +32,13 @@ export default function Home({ session }) {
 
   const url = "/api/login";
   const addItem = async () => {
-    const post = await axios.post(url,data);
-    const {statusText} = post
-    console.log(post)
-    console.log(statusText)
+    console.log('berhasil')
+    // signIn('credentials',{
+    //   Username:data.Username,
+    //   Password:data.Password,
+    //   callbackUrl: `${window.location.origin}/signUp`,
+    //   redirect:"/"
+    // })
     // if(statusText){
     //   router.push("/")
     //   }
@@ -69,18 +73,18 @@ export default function Home({ session }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  // console.log(session);
+// export async function getServerSideProps(context) {
+//   const session = await getSession(context);
+//   // console.log(session);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-  return {
-    props: { session },
-  };
-}
+//   if (session) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//       },
+//     };
+//   }
+//   return {
+//     props: { session },
+//   };
+// }
