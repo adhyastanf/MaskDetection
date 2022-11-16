@@ -58,9 +58,9 @@ export default function Home() {
             Log in
           </button>
           <div className=" flex gap-[8px] mb-[42px]">
-            <button onClick={() => signIn()} type="submit" className=" rounded-[20px] border border-solid w-full h-[40px] px-[34px] mb-[10px] border-black">
+            {/* <button onClick={() => signIn()} type="submit" className=" rounded-[20px] border border-solid w-full h-[40px] px-[34px] mb-[10px] border-black">
               <img src="google.svg" alt="" className=" m-auto" />
-            </button>
+            </button> */}
             <Link href={"/signUp"}>
               <button className=" rounded-[20px] border-solid w-full h-[40px] bg-[#2CD5D9] px-[34px] mb-[10px] text-white">Sign Up</button>
             </Link>
@@ -73,18 +73,3 @@ export default function Home() {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
-//   // console.log(session);
-
-//   if (session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
