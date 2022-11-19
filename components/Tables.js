@@ -1,4 +1,11 @@
 export default function Tables() {
+  const seed = [
+    {nama:'opal',umur:8},
+    {nama:'opsal',umur:10},
+    {nama:'opdal',umur:80},
+    {nama:'opafl',umur:82},
+
+]
   return (
     <>
       <div className="overflow-x-auto relative shadow-md">
@@ -11,57 +18,20 @@ export default function Tables() {
               <th scope="col" className="py-3 px-6">
                 Email
               </th>
-              <th scope="col" className="py-3 px-6">
-                birthdate
-              </th>
-              <th scope="col" className="py-3 px-6">
-                  Role
-                </th>
-              <th scope="col" className="py-3 px-6">
-                <span className="sr-only">Edit</span>
-              </th>
+              
             </tr>
           </thead>
           <tbody>
+            {seed.map((data) => {
+              return (
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                Apple MacBook Pro 17"
+                {data.nama}
               </th>
-              <td className="py-4 px-6">Sliver</td>
-              <td className="py-4 px-6">Laptop</td>
-              <td className="py-4 px-6">$2999</td>
-              <td className="py-4 px-6 text-right">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  Edit
-                </a>
-              </td>
+            <td className="py-4 px-6">{data.umur}</td>
+
             </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                Microsoft Surface Pro
-              </th>
-              <td className="py-4 px-6">White</td>
-              <td className="py-4 px-6">Laptop PC</td>
-              <td className="py-4 px-6">$1999</td>
-              <td className="py-4 px-6 text-right">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  Edit
-                </a>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                Magic Mouse 2
-              </th>
-              <td className="py-4 px-6">Black</td>
-              <td className="py-4 px-6">Accessories</td>
-              <td className="py-4 px-6">$99</td>
-              <td className="py-4 px-6 text-right">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                  Edit
-                </a>
-              </td>
-            </tr>
+              )})}
           </tbody>
         </table>
       </div>

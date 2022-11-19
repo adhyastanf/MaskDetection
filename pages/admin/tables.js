@@ -1,34 +1,22 @@
-import Layout from "../../components/layout/layout";
-import Tables from "../../components/tables";
-import {BsPeopleFill} from 'react-icons/bs'
+import React from "react";
 
-const TablesPages = () => {
-  const view = [{ title: "Total clients", content: "6389" }];
+// components
+
+import CardTable from "../../components/Cards/CardTable"
+
+// layout for page
+
+import Admin from "../../components/layout/layout";
+
+export default function Tables() {
   return (
-    <>
-      <Layout>
-        {/* <div className="container px-6 mx-auto grid bg-slate-500"> */}
-        <section className="mb-4 ">
-          <h1 className="select-none my-6 font-medium text-xl">Dashboard</h1>
-          {view.map((data, index) => {
-            return (
-              <div key={index} className=" flex gap-4 items-center px-4 py-2 my-2 bg-slate-100 rounded-md">
-                <BsPeopleFill size={40}/>
-                <div>
-                  <p className=" text-md font-bold ">{data.title}</p>
-                  <p >{data.content}</p>
-                </div>
-              </div>
-            );
-          })}
-        </section>
-        <section className="mb-4">
-          <Tables />
-        </section>
-        {/* </div> */}
-      </Layout>
-    </>
+    <Admin>
+      <div className="flex flex-wrap mt-4">
+        <div className="w-full mb-12 px-4">
+          <CardTable />
+        </div>
+      </div>
+    </Admin>
   );
-};
+}
 
-export default TablesPages;
